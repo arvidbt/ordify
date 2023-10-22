@@ -1,0 +1,26 @@
+---
+import NavItem from "./NavItem.astro";
+const { pathname } = Astro.url;
+---
+
+<div class="fixed top-0 z-50 w-full py-2 flex justify-center pt-5 bg-nice">
+  <div
+    class="px-4 w-full max-w-screen-md m-auto flex items-center justify-start"
+  >
+    <nav class="flex gap-x-8">
+      <p class="font-black text-xl">WordLib</p>
+      <NavItem
+        active={pathname.includes("/wordfeusk/") || pathname === "/wordfeusk"}
+        href="/wordfeusk"
+      >
+        <p>WordFeusk</p>
+      </NavItem>
+      <NavItem
+        active={pathname.includes("/solvordel/") || pathname === "/solvordel"}
+        href="/solvordel"
+      >
+        <p>SolvOrdel</p>
+      </NavItem>
+    </nav>
+  </div>
+</div>
