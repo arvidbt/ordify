@@ -8,18 +8,25 @@ const { pathname } = Astro.url;
     class="px-4 w-full max-w-screen-md m-auto flex items-center justify-start"
   >
     <nav class="flex gap-x-8">
-      <p class="font-black text-xl">WordLib</p>
+      <a href="/"><p class="font-black text-xl">WordLib</p></a>
       <NavItem
         active={pathname.includes("/wordfeusk/") || pathname === "/wordfeusk"}
         href="/wordfeusk"
       >
-        <p>WordFeusk</p>
+        <p class="text-xs">WordFeusk</p>
       </NavItem>
       <NavItem
         active={pathname.includes("/solvordel/") || pathname === "/solvordel"}
         href="/solvordel"
       >
-        <p>SolvOrdel</p>
+        <p class="text-xs">SolvOrdel</p>
+      </NavItem>
+      <NavItem
+        active={pathname.includes("/other-services/") ||
+          pathname === "/other-services"}
+        href="/other-services"
+      >
+        <p class="text-xs">...</p>
       </NavItem>
     </nav>
   </div>
