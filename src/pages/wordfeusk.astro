@@ -1,16 +1,36 @@
 ---
+import WordContainer from "@/components/WordContainer.astro";
 import Layout from "@/layout/Layout.astro";
+import { wordlib } from "@/lib/word-service";
 
 const MAX_ALLOWED_PIPES = 2;
 const MIN_ALLOWED_CHARACTERS = 2;
+
+type wordArrayType = {
+  length: number;
+  words: string[];
+};
+
+const words: string[] = [];
+const worrrds: wordArrayType[] = [];
+const wordLengths: { [length: number]: string[] } = {};
 
 if (Astro.request.method === "POST") {
   try {
     const data = await Astro.request.formData();
     const payload = data.get("letters") as string;
 
-    if (payload.split("|").length - 1 > 2) {
-      throw new Error("bajs!");
+    words.push(...wordlib.getWildcardWords(payload));
+    words.forEach((word) => {
+      const length = word.length;
+      if (!wordLengths[length]) {
+        wordLengths[length] = [];
+      }
+      wordLengths[length].push(word);
+    });
+
+    for (const [key, value] of Object.entries(wordLengths)) {
+      worrrds.push({ length: parseInt(key), words: value });
     }
   } catch (error) {
     if (error instanceof Error) {
@@ -21,6 +41,7 @@ if (Astro.request.method === "POST") {
 ---
 
 <Layout>
+  <h1 class="font-black text-sm py-2">Your letters.</h1>
   <form method="POST">
     <div class="relative">
       <input
@@ -32,4 +53,24 @@ if (Astro.request.method === "POST") {
       />
     </div>
   </form>
+
+  <div>
+    {
+      worrrds.map((w) => {
+        return (
+          <div class="flex flex-wrap items-center gap-2 p-4">
+            {w.words && w.length > 1 && w.words.length > 0 && (
+              <div class="flex flex-wrap gap-2 my-2 rounded-lg">
+                {w.words.map((w) => (
+                  <div class="text-xs border py-0.5 px-2.5 rounded-md font-semibold bg-slate-400 text-slate-900 outline-none">
+                    <p>{w}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        );
+      })
+    }
+  </div>
 </Layout>
