@@ -31,6 +31,7 @@ type wordArrayType = {
 const words: string[] = [];
 const worrrds: wordArrayType[] = [];
 const wordLengths: { [length: number]: string[] } = {};
+let time = 0;
 
 function calculatePoints(word: string): number {
   let wordWorth = 0;
@@ -53,8 +54,14 @@ if (Astro.request.method === "POST") {
   try {
     const data = await Astro.request.formData();
     const payload = data.get("letters") as string;
+    const start = performance.now();
+    const wordlibWords = wordlib.getWildcardWords(payload.toLowerCase(), {
+      length: MIN_ALLOWED_CHARACTERS,
+    });
+    const end = performance.now();
+    time = end - start;
 
-    words.push(...wordlib.getWildcardWords(payload.toLowerCase()));
+    words.push(...wordlibWords);
     words.forEach((word) => {
       const length = word.length;
       if (!wordLengths[length]) {
@@ -83,7 +90,6 @@ if (Astro.request.method === "POST") {
   </h1>
   <ul class="text-xs opacity-50 font-semibold pb-2">
     <li>- Use '?' for wildcard character behaviour.</li>
-    <!-- <li>Då</li> -->
   </ul>
   <form method="POST">
     <div class="relative">
@@ -91,12 +97,25 @@ if (Astro.request.method === "POST") {
         type="search"
         name="letters"
         id="default-search"
-        class="block w-full p-4 pl-2 text-lg font-black items-center text-offwhite rounded bg-slate-800 focus:bg-app-dark-blue focus:outline-none focus:p-8"
+        class="block w-full p-4 pl-2 text-lg font-black items-center text-offwhite rounded-sm bg-slate-800 focus:bg-app-dark-blue focus:outline-none focus:p-8"
         required
       />
     </div>
   </form>
-
+  <div>
+    {
+      time > 0 && (
+        <div class="pt-2">
+          <p class="text-xs font-semibold opacity-75">
+            Found{" "}
+            <span class="text-app-light-blue opacity-100">{words.length}</span>{" "}
+            words in{" "}
+            <span class="text-app-light-blue opacity-100">{time | 0}</span> ms.
+          </p>
+        </div>
+      )
+    }
+  </div>
   <div class="py-4">
     {
       worrrds.map((w) => {
