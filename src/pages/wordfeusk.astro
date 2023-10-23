@@ -50,20 +50,29 @@ function calculatePoints(word: string): number {
   return wordWorth;
 }
 
+function countWords(words: wordArrayType[]): number {
+  let totalWords = 0;
+  for (const items of words) {
+    totalWords += items.words.length;
+  }
+  return totalWords;
+}
+
 if (Astro.request.method === "POST") {
   try {
     const data = await Astro.request.formData();
     const payload = data.get("letters") as string;
     const start = performance.now();
-    const wordlibWords = wordlib.getWildcardWords(payload.toLowerCase(), {
-      length: MIN_ALLOWED_CHARACTERS,
-    });
+    const wordlibWords = wordlib.getWildcardWords(payload.toLowerCase());
     const end = performance.now();
     time = end - start;
 
     words.push(...wordlibWords);
     words.forEach((word) => {
       const length = word.length;
+      if (length < MIN_ALLOWED_CHARACTERS) {
+        return;
+      }
       if (!wordLengths[length]) {
         wordLengths[length] = [];
       }
@@ -97,7 +106,7 @@ if (Astro.request.method === "POST") {
         type="search"
         name="letters"
         id="default-search"
-        class="block w-full p-4 pl-2 text-lg font-black items-center text-offwhite rounded-sm bg-slate-800 focus:bg-app-dark-blue focus:outline-none focus:p-8"
+        class="block w-full p-4 pl-2 text-lg font-black items-center text-center text-offwhite rounded-sm bg-slate-800 focus:bg-app-dark-blue focus:outline-none focus:p-8"
         required
       />
     </div>
@@ -108,7 +117,9 @@ if (Astro.request.method === "POST") {
         <div class="pt-2">
           <p class="text-xs font-semibold opacity-75">
             Found{" "}
-            <span class="text-app-light-blue opacity-100">{words.length}</span>{" "}
+            <span class="text-app-light-blue opacity-100">
+              {countWords(worrrds)}
+            </span>{" "}
             words in{" "}
             <span class="text-app-light-blue opacity-100">{time | 0}</span> ms.
           </p>
