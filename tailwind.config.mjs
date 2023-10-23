@@ -5,9 +5,11 @@ module.exports = {
 	theme: {
 	  extend: {
 		colors: {
-		  'offwhite': '#FAF9F6',
-		  'offwhite-accenture' : '#f9f9f9',
-		  'nice' : '#1A202C'
+		  'app-light-blue': '#a3cef1',
+		  'app-dark-gray' : '#1A202C',
+		  'app-blue' : '#6096ba',
+		  'app-dark-blue' : '#274c77',
+		  'app-light-gray' : '#e7ecef'
 		},
 		minWidth: {
 		  8: "1.5rem",

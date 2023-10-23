@@ -1,5 +1,4 @@
 ---
-import WordContainer from "@/components/WordContainer.astro";
 import Layout from "@/layout/Layout.astro";
 import { wordlib } from "@/lib/word-service";
 
@@ -23,8 +22,6 @@ const LETTER_POINTS: { [key: string]: number } = {
   SEVEN_POINTS: 7,
   EIGHT_POINTS: 8,
 };
-
-const FILTERED_CHARACTERS = [""];
 
 type wordArrayType = {
   length: number;
@@ -81,14 +78,20 @@ if (Astro.request.method === "POST") {
 ---
 
 <Layout>
-  <h1 class="font-black text-base py-2">Your letters.</h1>
+  <h1 class="font-black text-base uppercase text-app-light-gray">
+    Your letters.
+  </h1>
+  <ul class="text-xs opacity-50 font-semibold pb-2">
+    <li>- Use '?' for wildcard character behaviour.</li>
+    <!-- <li>Då</li> -->
+  </ul>
   <form method="POST">
     <div class="relative">
       <input
         type="search"
         name="letters"
         id="default-search"
-        class="block w-full p-4 pl-2 text-lg font-black items-center text-red-500 rounded-lg bg-slate-800 focus:bg-slate-600 focus:outline-none"
+        class="block w-full p-4 pl-2 text-lg font-black items-center text-offwhite rounded-lg bg-slate-800 focus:bg-app-dark-blue focus:outline-none focus:p-8"
         required
       />
     </div>
@@ -102,12 +105,12 @@ if (Astro.request.method === "POST") {
             {w.words &&
               w.length >= MIN_ALLOWED_CHARACTERS &&
               w.words.length > 0 && (
-                <div class="flex flex-wrap gap-2 my-2 rounded-lg">
+                <div class="flex flex-wrap gap-2 my-2 rounded-lg bg-slate-800 p-2">
                   {w.words.map((w) => (
-                    <div class="text-sm border py-0.5 px-2.5 rounded-md font-semibold bg-slate-800 text-red-500 outline-none border-none">
+                    <div class="text-sm border py-0.5 px-2.5 rounded-md font-extrabold bg-app-dark-blue text-offwhite outline-none border-none">
                       <p class="uppercase">
                         {w}{" "}
-                        <span class="font-black text-xs opacity-50 text-yellow-500">
+                        <span class="font-black text-xs opacity-70 text-yellow-500">
                           {" "}
                           {calculatePoints(w)}p
                         </span>
