@@ -6,6 +6,26 @@ import { wordlib } from "@/lib/word-service";
 const MAX_ALLOWED_PIPES = 2;
 const MIN_ALLOWED_CHARACTERS = 2;
 
+const LETTERS: { [key: string]: string[] } = {
+  ONE_POINT: ["a", "e", "i", "o", "u", "l", "n", "r", "s", "t"],
+  TWO_POINTS: ["d", "g"],
+  THREE_POINTS: ["b", "c", "m", "p"],
+  FOUR_POINTS: ["f", "h", "v", "w", "y"],
+  SEVEN_POINTS: ["k"],
+  EIGHT_POINTS: ["j", "x"],
+};
+
+const LETTER_POINTS: { [key: string]: number } = {
+  ONE_POINT: 1,
+  TWO_POINTS: 2,
+  THREE_POINTS: 3,
+  FOUR_POINTS: 4,
+  SEVEN_POINTS: 7,
+  EIGHT_POINTS: 8,
+};
+
+const FILTERED_CHARACTERS = [""];
+
 type wordArrayType = {
   length: number;
   words: string[];
@@ -15,16 +35,36 @@ const words: string[] = [];
 const worrrds: wordArrayType[] = [];
 const wordLengths: { [length: number]: string[] } = {};
 
+function calculatePoints(word: string): number {
+  let wordWorth = 0;
+  for (let letter of word) {
+    for (const category in LETTERS) {
+      if (LETTERS[category].includes(letter)) {
+        wordWorth += LETTER_POINTS[category];
+        break;
+      }
+    }
+  }
+  if (word.length > 6) {
+    wordWorth += 40;
+  }
+
+  return wordWorth;
+}
+
 if (Astro.request.method === "POST") {
   try {
     const data = await Astro.request.formData();
     const payload = data.get("letters") as string;
 
-    words.push(...wordlib.getWildcardWords(payload));
+    words.push(...wordlib.getWildcardWords(payload.toLowerCase()));
     words.forEach((word) => {
       const length = word.length;
       if (!wordLengths[length]) {
         wordLengths[length] = [];
+      }
+      if (word.includes(":")) {
+        return;
       }
       wordLengths[length].push(word);
     });
@@ -41,33 +81,41 @@ if (Astro.request.method === "POST") {
 ---
 
 <Layout>
-  <h1 class="font-black text-sm py-2">Your letters.</h1>
+  <h1 class="font-black text-base py-2">Your letters.</h1>
   <form method="POST">
     <div class="relative">
       <input
         type="search"
         name="letters"
         id="default-search"
-        class="block w-full p-4 pl-2 text-sm font-black items-center text-red-500 rounded-lg bg-slate-800 focus:bg-slate-600 focus:outline-none"
+        class="block w-full p-4 pl-2 text-lg font-black items-center text-red-500 rounded-lg bg-slate-800 focus:bg-slate-600 focus:outline-none"
         required
       />
     </div>
   </form>
 
-  <div>
+  <div class="py-4">
     {
       worrrds.map((w) => {
         return (
-          <div class="flex flex-wrap items-center gap-2 p-4">
-            {w.words && w.length > 1 && w.words.length > 0 && (
-              <div class="flex flex-wrap gap-2 my-2 rounded-lg">
-                {w.words.map((w) => (
-                  <div class="text-xs border py-0.5 px-2.5 rounded-md font-semibold bg-slate-400 text-slate-900 outline-none">
-                    <p>{w}</p>
-                  </div>
-                ))}
-              </div>
-            )}
+          <div class="flex flex-wrap items-center gap-2">
+            {w.words &&
+              w.length >= MIN_ALLOWED_CHARACTERS &&
+              w.words.length > 0 && (
+                <div class="flex flex-wrap gap-2 my-2 rounded-lg">
+                  {w.words.map((w) => (
+                    <div class="text-sm border py-0.5 px-2.5 rounded-md font-semibold bg-slate-800 text-red-500 outline-none border-none">
+                      <p class="uppercase">
+                        {w}{" "}
+                        <span class="font-black text-xs opacity-50 text-yellow-500">
+                          {" "}
+                          {calculatePoints(w)}p
+                        </span>
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              )}
           </div>
         );
       })
