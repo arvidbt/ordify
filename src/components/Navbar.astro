@@ -7,11 +7,13 @@ const { pathname } = Astro.url;
   class="fixed top-0 z-50 w-full py-2 flex justify-center pt-5 bg-app-dark-gray rounded-b-lg"
 >
   <div
-    class="px-4 w-full max-w-screen-md m-auto flex items-center justify-start"
+    class="px-4 w-full max-w-screen-md m-auto flex items-center justify-evenly"
   >
     <nav class="flex gap-x-8">
       <a href="/"
-        ><p class="font-black text-2xl text-app-light-blue">ORDIFY</p></a
+        ><p class="font-black text-xl text-app-light-blue">
+          ORDIFY<span class="text-xs text-yellow-600 opacity-75">beta</span>
+        </p></a
       >
       <NavItem
         active={pathname.includes("/wordfeusk/") || pathname === "/wordfeusk"}
