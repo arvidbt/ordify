@@ -1,9 +1,30 @@
 ---
+import InputField from "@/components/InputField.astro";
+import WordContainer from "@/components/WordContainer.astro";
 import Layout from "@/layout/Layout.astro";
+import { wordlib } from "@/lib/word-service";
+
+const words: string[] = [];
+
+if (Astro.request.method === "POST") {
+  try {
+    const data = await Astro.request.formData();
+    const payload = data.get("letters") as string;
+
+    words.push(...wordlib.getPossibleWords(payload.toLowerCase()));
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message);
+    }
+  }
+}
 ---
 
 <Layout>
-  <div class="flex items-center justify-center">
-    <p class="text-sm py-2 font-semibold">This feature is coming soon...</p>
-  </div>
+  <InputField
+    service="your letters"
+    details={["Enter unknown characters as '?' ", "For example: P?L?T"]}
+  />
+
+  <WordContainer result={words} />
 </Layout>
