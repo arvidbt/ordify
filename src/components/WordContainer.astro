@@ -1,0 +1,19 @@
+---
+interface Props {
+  result: string[];
+}
+
+const { result } = Astro.props;
+---
+
+{
+  result && result.length > 0 && (
+    <div class="flex flex-wrap gap-2 my-2 rounded-lg bg-slate-800 p-2">
+      {result.map((w) => (
+        <div class="text-sm border py-0.5 px-2.5 rounded-md font-extrabold bg-app-dark-blue text-offwhite outline-none border-none">
+          <p>{w}</p>
+        </div>
+      ))}
+    </div>
+  )
+}

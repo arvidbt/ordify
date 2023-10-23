@@ -1,0 +1,21 @@
+---
+import Layout from "@/layout/Layout.astro";
+import { wordlib } from "@/lib/word-service";
+
+let word = wordlib.random();
+---
+
+<Layout>
+  <p class="text-xs font-semibold opacity-75 py-3">
+    The <span class="text-app-light-blue">random</span>
+     feature is a quite straightforward function. It returns a random word.
+  </p>
+
+  {
+    word && (
+      <div class="flex items-center justify-center py-8 bg-app-dark-blue my-2 rounded-md">
+        <p class="font-black text-xl">{word}</p>
+      </div>
+    )
+  }
+</Layout>

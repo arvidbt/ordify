@@ -1,0 +1,30 @@
+---
+import InputField from "@/components/InputField.astro";
+import WordContainer from "@/components/WordContainer.astro";
+import Layout from "@/layout/Layout.astro";
+import { wordlib } from "@/lib/word-service";
+
+const anagrams: string[] = [];
+
+if (Astro.request.method === "POST") {
+  try {
+    const data = await Astro.request.formData();
+    const payload = data.get("letters") as string;
+    anagrams.push(...wordlib.anagramsOf(payload));
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message);
+    }
+  }
+}
+---
+
+<Layout>
+  <p class="text-xs font-semibold opacity-75 py-3">
+    The <span class="text-app-light-blue">anagramsOf</span>
+     feature checks for all known anagrams of a string (word).
+  </p>
+
+  <InputField service="Anagrams of:" />
+  <WordContainer result={anagrams} />
+</Layout>

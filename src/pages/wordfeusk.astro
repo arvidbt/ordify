@@ -1,4 +1,5 @@
 ---
+import InputField from "@/components/InputField.astro";
 import Layout from "@/layout/Layout.astro";
 import { wordlib } from "@/lib/word-service";
 
@@ -29,7 +30,7 @@ type wordArrayType = {
 };
 
 const words: string[] = [];
-const worrrds: wordArrayType[] = [];
+const sortedWords: wordArrayType[] = [];
 const wordLengths: { [length: number]: string[] } = {};
 let time = 0;
 
@@ -83,7 +84,7 @@ if (Astro.request.method === "POST") {
     });
 
     for (const [key, value] of Object.entries(wordLengths)) {
-      worrrds.push({ length: parseInt(key), words: value });
+      sortedWords.push({ length: parseInt(key), words: value });
     }
   } catch (error) {
     if (error instanceof Error) {
@@ -94,23 +95,10 @@ if (Astro.request.method === "POST") {
 ---
 
 <Layout>
-  <h1 class="font-black text-base uppercase text-app-light-gray">
-    Your letters.
-  </h1>
-  <ul class="text-xs opacity-50 font-semibold pb-2">
-    <li>- Use '?' for wildcard character behaviour.</li>
-  </ul>
-  <form method="POST">
-    <div class="relative">
-      <input
-        type="search"
-        name="letters"
-        id="default-search"
-        class="block w-full p-4 pl-2 text-lg font-black items-center text-center text-offwhite rounded-sm bg-slate-800 focus:bg-app-dark-blue focus:outline-none focus:p-8"
-        required
-      />
-    </div>
-  </form>
+  <InputField
+    service="your letters."
+    details={["Use '?' for wildcard character behaviour."]}
+  />
   <div>
     {
       time > 0 && (
@@ -118,7 +106,7 @@ if (Astro.request.method === "POST") {
           <p class="text-xs font-semibold opacity-75">
             Found{" "}
             <span class="text-app-light-blue opacity-100">
-              {countWords(worrrds)}
+              {countWords(sortedWords)}
             </span>{" "}
             words in{" "}
             <span class="text-app-light-blue opacity-100">{time | 0}</span> ms.
@@ -129,26 +117,24 @@ if (Astro.request.method === "POST") {
   </div>
   <div class="py-4">
     {
-      worrrds.map((w) => {
+      sortedWords.map((w) => {
         return (
           <div class="flex flex-wrap items-center gap-2">
-            {w.words &&
-              w.length >= MIN_ALLOWED_CHARACTERS &&
-              w.words.length > 0 && (
-                <div class="flex flex-wrap gap-2 my-2 rounded-lg bg-slate-800 p-2">
-                  {w.words.map((w) => (
-                    <div class="text-sm border py-0.5 px-2.5 rounded-md font-extrabold bg-app-dark-blue text-offwhite outline-none border-none">
-                      <p class="uppercase">
-                        {w}{" "}
-                        <span class="font-black text-xs opacity-70 text-yellow-500">
-                          {" "}
-                          {calculatePoints(w)}p
-                        </span>
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              )}
+            {w.words && w.words.length > 0 && (
+              <div class="flex flex-wrap gap-2 my-2 rounded-lg bg-slate-800 p-2">
+                {w.words.map((w) => (
+                  <div class="text-sm border py-0.5 px-2.5 rounded-md font-extrabold bg-app-dark-blue text-offwhite outline-none border-none">
+                    <p class="uppercase">
+                      {w}{" "}
+                      <span class="font-black text-xs opacity-70 text-yellow-500">
+                        {" "}
+                        {calculatePoints(w)}p
+                      </span>
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         );
       })
