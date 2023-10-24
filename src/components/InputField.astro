@@ -10,19 +10,6 @@ const { service, details, additionalInputs, mainInputFieldPlaceholder } =
   Astro.props;
 ---
 
-<script>
-  const form = document.getElementById("submit-form") as HTMLInputElement;
-  if (form) {
-    form.addEventListener("keydown", (e) => {
-      e.preventDefault();
-      if (e.key === "Enter" || e.code === "Enter") {
-        console.log("Klick!");
-        form.click();
-      }
-    });
-  }
-</script>
-
 <h1 class="font-black text-base uppercase text-app-light-gray">
   {service}
 </h1>
@@ -44,7 +31,7 @@ const { service, details, additionalInputs, mainInputFieldPlaceholder } =
       !additionalInputs && (
         <button
           id="submit-knapp"
-          class="block uppercase w-2/12 p-4 pl-2 text-xs ml-2 font-black items-center placeholder:text-xs rounded-lg text-center text-app-light-gray bg-app-dark-blue opacity-75"
+          class="block uppercase w-4/12 p-4 text-xs ml-2 font-black items-center placeholder:text-xs rounded-lg text-center text-app-light-gray bg-app-dark-blue opacity-75"
         >
           Search
         </button>
