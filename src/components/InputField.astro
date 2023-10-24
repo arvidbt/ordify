@@ -10,12 +10,27 @@ const { service, details, additionalInputs, mainInputFieldPlaceholder } =
   Astro.props;
 ---
 
+<!-- <script>
+  const form = document.getElementById("submit-form") as HTMLInputElement;
+  if (form) {
+    form.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        form.click();
+      }
+    });
+  }
+</script> -->
 <script>
   const form = document.getElementById("submit-form") as HTMLInputElement;
   if (form) {
     form.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
-        form.click();
+        e.preventDefault(); // Prevent the default Enter key behavior (e.g., line break)
+        const submitButton = document.getElementById("submit-button");
+        if (submitButton) {
+          submitButton.click(); // Trigger the click event on the hidden submit button
+        }
       }
     });
   }
@@ -61,4 +76,8 @@ const { service, details, additionalInputs, mainInputFieldPlaceholder } =
   />
 
   <input id="submit-form" name="submit-form" type="submit" hidden />
+  <!-- Add a hidden submit button with an id -->
+
+  <!-- Add a visible submit button that's hidden from the user -->
+  <input id="submit-button" type="submit" style="display: none;" />
 </form>
