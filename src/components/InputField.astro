@@ -1,10 +1,13 @@
 ---
 interface Props {
-  service: string;
+  service?: string;
   details?: string[];
+  additionalInputs?: boolean;
+  mainInputFieldPlaceholder: string;
 }
 
-const { service, details } = Astro.props;
+const { service, details, additionalInputs, mainInputFieldPlaceholder } =
+  Astro.props;
 ---
 
 <h1 class="font-black text-base uppercase text-app-light-gray">
@@ -14,13 +17,33 @@ const { service, details } = Astro.props;
   {details && details.map((d) => <li>{d}</li>)}
 </ul>
 <form method="POST">
-  <div class="relative">
-    <input
-      type="search"
-      name="letters"
-      id="default-search"
-      class="block w-full p-4 pl-2 text-xl font-black items-center rounded-lg text-center text-app-light-gray bg-slate-800 focus:bg-app-dark-blue focus:outline-none focus:p-8"
-      required
-    />
-  </div>
+  {
+    additionalInputs && (
+      <div class="flex justify-evenly">
+        <input
+          type="text"
+          name="starts-with"
+          id="starts-with"
+          placeholder="Starting with"
+          class="block uppercase w-full my-2 mr-1 p-2 pl-2 text-xl font-black placeholder:text-xs items-center rounded-lg text-center text-app-light-gray bg-slate-800 focus:bg-app-dark-blue focus:outline-none"
+        />
+        <input
+          type="text"
+          name="ends-with"
+          id="ends-with"
+          placeholder="Ending with"
+          class="block uppercase w-full my-2 ml-1 p-2 pl-2 text-xl font-black placeholder:text-xs items-center rounded-lg text-center text-app-light-gray bg-slate-800 focus:bg-app-dark-blue focus:outline-none"
+        />
+      </div>
+    )
+  }
+  <input
+    type="search"
+    name="letters"
+    id="default-search"
+    placeholder={mainInputFieldPlaceholder}
+    class="block uppercase w-full p-4 pl-2 text-xl font-black items-center placeholder:text-xs rounded-lg text-center text-app-light-gray bg-slate-800 focus:bg-app-dark-blue focus:outline-none focus:p-8"
+    required
+  />
+  <input type="submit" hidden />
 </form>

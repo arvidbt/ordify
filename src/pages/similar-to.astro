@@ -26,6 +26,9 @@ if (Astro.request.method === "POST") {
     Levenshtein distance. May not be very similar.
   </p>
 
-  <InputField service="Words similar to:" />
+  <InputField
+    service="Words similar to:"
+    mainInputFieldPlaceholder="your word"
+  />
   <WordContainer result={wordsSimilarTo} />
 </Layout>

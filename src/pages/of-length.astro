@@ -26,7 +26,10 @@ if (Astro.request.method === "POST") {
      feature finds all words that are of length (number).
   </p>
 
-  <InputField service="Words of length:" />
+  <InputField
+    service="Words of length:"
+    mainInputFieldPlaceholder="your number"
+  />
 
   <WordContainer result={words} />
 </Layout>

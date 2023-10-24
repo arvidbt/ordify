@@ -22,8 +22,9 @@ if (Astro.request.method === "POST") {
 
 <Layout>
   <InputField
-    service="your letters"
-    details={["Enter unknown characters as '?' ", "For example: P?L?T"]}
+    service="solvordel"
+    details={["Enter unknown characters as '?', for example: P?L?T "]}
+    mainInputFieldPlaceholder="your letters"
   />
 
   <WordContainer result={words} />

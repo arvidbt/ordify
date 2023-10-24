@@ -3,7 +3,6 @@ import InputField from "@/components/InputField.astro";
 import Layout from "@/layout/Layout.astro";
 import { wordlib } from "@/lib/word-service";
 
-const MAX_ALLOWED_PIPES = 2;
 const MIN_ALLOWED_CHARACTERS = 2;
 
 const LETTERS: { [key: string]: string[] } = {
@@ -24,19 +23,29 @@ const LETTER_POINTS: { [key: string]: number } = {
   EIGHT_POINTS: 8,
 };
 
-type wordArrayType = {
+type WordObject = {
   length: number;
   words: string[];
 };
 
-const words: string[] = [];
-const sortedWords: wordArrayType[] = [];
-const wordLengths: { [length: number]: string[] } = {};
+type FilteredWords = { [length: number]: string[] }
+
+const possibleWords: WordObject[] = [];
 let time = 0;
+let orignalLetters = "";
+let startsWith = "";
+let endsWith = "";
+let payloadWord = "";
+
 
 function calculatePoints(word: string): number {
   let wordWorth = 0;
   for (let letter of word) {
+
+    if (payloadWord && !payloadWord.includes(letter)) {
+      continue;
+    }
+
     for (const category in LETTERS) {
       if (LETTERS[category].includes(letter)) {
         wordWorth += LETTER_POINTS[category];
@@ -44,14 +53,15 @@ function calculatePoints(word: string): number {
       }
     }
   }
-  if (word.length > 6) {
+
+  if ((word.length - payloadWord.split("?").length - 1 ) > 6) {
     wordWorth += 40;
   }
 
   return wordWorth;
 }
 
-function countWords(words: wordArrayType[]): number {
+function countWords(words: WordObject[]): number {
   let totalWords = 0;
   for (const items of words) {
     totalWords += items.words.length;
@@ -59,32 +69,69 @@ function countWords(words: wordArrayType[]): number {
   return totalWords;
 }
 
-if (Astro.request.method === "POST") {
-  try {
-    const data = await Astro.request.formData();
-    const payload = data.get("letters") as string;
-    const start = performance.now();
-    const wordlibWords = wordlib.getWildcardWords(payload.toLowerCase());
-    const end = performance.now();
-    time = end - start;
+function filterWords(words: string[]): FilteredWords {
+  const sortedWords: FilteredWords = {};
 
-    words.push(...wordlibWords);
     words.forEach((word) => {
       const length = word.length;
       if (length < MIN_ALLOWED_CHARACTERS) {
         return;
       }
-      if (!wordLengths[length]) {
-        wordLengths[length] = [];
-      }
       if (word.includes(":")) {
         return;
       }
-      wordLengths[length].push(word);
+      if (startsWith && startsWith !== "" && !word.startsWith(startsWith)) 
+      {
+        return;
+      }
+      if (endsWith && endsWith !== "" && !word.endsWith(endsWith)) {
+        return;
+      }
+      if (word.length <= (endsWith.length + startsWith.length)) {
+        return;
+      }
+      if (!sortedWords[length]) {
+        sortedWords[length] = [];
+      }
+      sortedWords[length].push(word);
     });
+    return sortedWords;
+}
 
-    for (const [key, value] of Object.entries(wordLengths)) {
-      sortedWords.push({ length: parseInt(key), words: value });
+function fetchWords(payload: string): string[] {
+  const start = performance.now();
+  const words = wordlib.getWildcardWords(payload.toLowerCase());
+  const end = performance.now();
+  time = end - start;
+
+  return words;
+}
+
+if (Astro.request.method === "POST") {
+  try {
+    const data = await Astro.request.formData();
+    let letters = data.get("letters") as string;
+    orignalLetters = letters;
+    startsWith = data.get("starts-with") as string;
+    endsWith = data.get("ends-with") as string;
+
+    if (startsWith) {
+      letters += startsWith;
+    }
+
+    if (endsWith) {
+      letters += endsWith;
+    }
+
+    const res = fetchWords(letters);
+    const sortedWords = filterWords(res);
+
+    if (letters.includes("?")) {
+      payloadWord = letters;
+    }
+
+    for (const [key, value] of Object.entries(sortedWords)) {
+      possibleWords.push({ length: parseInt(key), words: value });
     }
   } catch (error) {
     if (error instanceof Error) {
@@ -93,34 +140,75 @@ if (Astro.request.method === "POST") {
   }
 }
 ---
-
 <Layout>
+
   <InputField
-    service="your letters."
+    service="wordfeusk"
     details={["Use '?' for wildcard character behaviour."]}
+    additionalInputs={true}
+    mainInputFieldPlaceholder="your letters"
   />
-  <div>
+
+  <!-- <p>You searched for words starting with ... containing ... and ending with ...</p> -->
+  
+  <!-- {
+    orignalLetters && endsWith !== "" &&
+    <div class="py-2">
+      <p class="text-xs font-black">Your searched for words containing <span class="text-app-light-blue">{orignalLetters}</span> and ending with <span class="text-app-light-blue">{endsWith}</span>.</p>
+    </div>
+
+  } -->
+  
+
+  <div class="py-2 text-xs font-black opacity-75">
     {
-      time > 0 && (
-        <div class="pt-2">
-          <p class="text-xs font-semibold opacity-75">
-            Found{" "}
-            <span class="text-app-light-blue opacity-100">
-              {countWords(sortedWords)}
-            </span>{" "}
-            words in{" "}
-            <span class="text-app-light-blue opacity-100">{time | 0}</span> ms.
-          </p>
+      time > 0 && orignalLetters && endsWith !== "" && startsWith === "" && (
+        <div>
+          <p>Found <span class="text-app-light-blue">{countWords(possibleWords)}</span> words containing <span class="text-app-light-blue">{orignalLetters}</span> and ending with <span class="text-app-light-blue">{endsWith}</span> in <span class="text-app-light-blue">{time | 0}</span> ms.</p>
         </div>
       )
     }
-  </div>
-  <div class="py-4">
     {
-      sortedWords.map((w) => {
+      time > 0 && orignalLetters && startsWith !== "" && endsWith === "" && (
+        <div>
+          <p>Found <span class="text-app-light-blue">{countWords(possibleWords)}</span> words containing <span class="text-app-light-blue">{orignalLetters}</span> and starting with <span class="text-app-light-blue">{startsWith}</span> in <span class="text-app-light-blue">{time | 0}</span> ms.</p>
+        </div>
+      )
+    }
+    {
+      time > 0 && orignalLetters && startsWith !== "" && endsWith !== "" && (
+        <div>
+          <p>Found <span class="text-app-light-blue">{countWords(possibleWords)}</span> words containing <span class="text-app-light-blue">{orignalLetters}</span>, starting with <span class="text-app-light-blue">{startsWith}</span> and ending with <span class="text-app-light-blue">{endsWith}</span> in <span class="text-app-light-blue">{time | 0}</span> ms.</p>
+
+        </div>
+      )
+    }
+    <!-- {
+      time > 0 && (
+        <div>
+          <div class=" rounded-md">
+            <p class="text-xs font-semibold">
+            Found{" "}
+            <span class="text-app-light-blue">
+              {countWords(possibleWords)}
+            </span>{" "}
+            words {" "}
+            {
+              orignalLetters && endsWith !== "" && <p>bla bla in</p>
+            }
+            <span class="text-app-light-blue">{time | 0}</span> ms.
+          </p>
+          </div>
+        </div>
+      )
+    } -->
+  </div>
+  <div class="">
+    {
+      possibleWords.map((w) => {
         return (
           <div class="flex flex-wrap items-center gap-2">
-            {w.words && w.words.length > 0 && (
+            {w.words && w.words[0].length > 0 && (
               <div class="flex flex-wrap gap-2 my-2 rounded-lg bg-slate-800 p-2">
                 {w.words.map((w) => (
                   <div class="text-sm border py-0.5 px-2.5 rounded-md font-extrabold bg-app-dark-blue text-offwhite outline-none border-none">

@@ -24,7 +24,7 @@ if (Astro.request.method === "POST") {
      feature checks if a word exists in the dictionary.
   </p>
 
-  <InputField service="Look up word:" />
+  <InputField service="Look up word:" mainInputFieldPlaceholder="your word" />
   {
     isWord === true && isWord !== undefined && (
       <div class="flex items-center justify-center py-8 bg-green-800 my-2 rounded-md">

@@ -27,7 +27,10 @@ if (Astro.request.method === "POST") {
      feature checks for all known words that starts with another string (word).
   </p>
 
-  <InputField service="Words starting with:" />
+  <InputField
+    service="Words starting with:"
+    mainInputFieldPlaceholder="your letters"
+  />
 
   <WordContainer result={words} />
 </Layout>

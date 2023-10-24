@@ -27,7 +27,10 @@ if (Astro.request.method === "POST") {
      feature checks for all known words that ends with another string (word).
   </p>
 
-  <InputField service="Words ending with:" />
+  <InputField
+    service="Words ending with:"
+    mainInputFieldPlaceholder="your letters"
+  />
 
   <WordContainer result={words} />
 </Layout>
