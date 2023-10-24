@@ -10,6 +10,23 @@ const { service, details, additionalInputs, mainInputFieldPlaceholder } =
   Astro.props;
 ---
 
+<script>
+  var submitForm = document.getElementById("submit-form");
+  if (!submitForm) {
+    return;
+  }
+  submitForm.addEventListener(
+    "keyup",
+    function (e) {
+      e.preventDefault();
+      if (e.keyCode === 13) {
+        alert("Hej!");
+      }
+    },
+    false
+  );
+</script>
+
 <h1 class="font-black text-base uppercase text-app-light-gray">
   {service}
 </h1>
@@ -45,5 +62,5 @@ const { service, details, additionalInputs, mainInputFieldPlaceholder } =
     class="block uppercase w-full p-4 pl-2 text-xl font-black items-center placeholder:text-xs rounded-lg text-center text-app-light-gray bg-slate-800 focus:bg-app-dark-blue focus:outline-none focus:p-8"
     required
   />
-  <input type="submit" hidden />
+  <input id="submit-form" name="submit-form" type="submit" hidden />
 </form>

@@ -149,18 +149,14 @@ if (Astro.request.method === "POST") {
     mainInputFieldPlaceholder="your letters"
   />
 
-  <!-- <p>You searched for words starting with ... containing ... and ending with ...</p> -->
-  
-  <!-- {
-    orignalLetters && endsWith !== "" &&
-    <div class="py-2">
-      <p class="text-xs font-black">Your searched for words containing <span class="text-app-light-blue">{orignalLetters}</span> and ending with <span class="text-app-light-blue">{endsWith}</span>.</p>
-    </div>
-
-  } -->
-  
-
   <div class="py-2 text-xs font-black opacity-75">
+    {
+      time > 0 && orignalLetters && endsWith === "" && startsWith === "" && (
+      <div>
+          <p>Found <span class="text-app-light-blue">{countWords(possibleWords)}</span> words containing <span class="text-app-light-blue">{orignalLetters}</span> in <span class="text-app-light-blue">{time | 0}</span> ms.</p>
+        </div>
+      )
+    }
     {
       time > 0 && orignalLetters && endsWith !== "" && startsWith === "" && (
         <div>
@@ -183,25 +179,7 @@ if (Astro.request.method === "POST") {
         </div>
       )
     }
-    <!-- {
-      time > 0 && (
-        <div>
-          <div class=" rounded-md">
-            <p class="text-xs font-semibold">
-            Found{" "}
-            <span class="text-app-light-blue">
-              {countWords(possibleWords)}
-            </span>{" "}
-            words {" "}
-            {
-              orignalLetters && endsWith !== "" && <p>bla bla in</p>
-            }
-            <span class="text-app-light-blue">{time | 0}</span> ms.
-          </p>
-          </div>
-        </div>
-      )
-    } -->
+
   </div>
   <div class="">
     {
