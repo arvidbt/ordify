@@ -16,10 +16,8 @@ const { service, details, additionalInputs, mainInputFieldPlaceholder } =
     form.addEventListener("keydown", (e) => {
       e.preventDefault();
       if (e.key === "Enter" || e.code === "Enter") {
-        const submitButton = document.getElementById("submit-button");
-        if (submitButton) {
-          submitButton.click();
-        }
+        console.log("Klick!");
+        form.click();
       }
     });
   }
@@ -54,16 +52,27 @@ const { service, details, additionalInputs, mainInputFieldPlaceholder } =
       </div>
     )
   }
-  <input
-    autocorrect="off"
-    type="text"
-    name="letters"
-    id="default-search"
-    placeholder={mainInputFieldPlaceholder}
-    class="block uppercase w-full p-4 pl-2 text-xl font-black items-center placeholder:text-xs rounded-lg text-center text-app-light-gray bg-slate-800 focus:bg-app-dark-blue focus:outline-none focus:p-6"
-    required
-  />
+  <div class="flex">
+    <input
+      autocorrect="off"
+      type="text"
+      name="letters"
+      id="default-search"
+      placeholder={mainInputFieldPlaceholder}
+      class="block uppercase w-full p-4 pl-2 text-xl font-black items-center placeholder:text-xs rounded-l-lg text-center text-app-light-gray bg-slate-800 focus:bg-app-dark-blue focus:outline-none"
+      required
+    />
+    {
+      additionalInputs && (
+        <button
+          id="submit-knapp"
+          class="p-2 bg-app-dark-blue rounded-r-lg text-xs font-black"
+        >
+          Search
+        </button>
+      )
+    }
+  </div>
 
-  <input id="submit-form" name="submit-form" type="submit" hidden />
-  <input id="submit-button" type="submit" style="display: none;" />
+  <!-- <input id="submit-form" name="submit-form" type="submit" hidden /> -->
 </form>
