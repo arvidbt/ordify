@@ -10,7 +10,16 @@ const { service, details, additionalInputs, mainInputFieldPlaceholder } =
   Astro.props;
 ---
 
-<script></script>
+<script>
+  const form = document.getElementById("submit-form");
+  document.addEventListener("keydown", keyDownTextField, false);
+  function keyDownTextField(e: any) {
+    var keyCode = e.keyCode;
+    if (keyCode == 13) {
+      alert("You hit the enter key.");
+    }
+  }
+</script>
 
 <h1 class="font-black text-base uppercase text-app-light-gray">
   {service}
@@ -51,5 +60,5 @@ const { service, details, additionalInputs, mainInputFieldPlaceholder } =
     required
   />
 
-  <!-- <input id="submit-form" name="submit-form" type="submit" hidden /> -->
+  <input id="submit-form" name="submit-form" type="submit" hidden />
 </form>
