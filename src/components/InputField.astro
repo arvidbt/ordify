@@ -40,6 +40,16 @@ const { service, details, additionalInputs, mainInputFieldPlaceholder } =
       class="block uppercase w-full p-4 pl-2 text-xl font-black items-center placeholder:text-xs rounded-lg text-center text-app-light-gray bg-slate-800 focus:bg-app-dark-blue focus:outline-none"
       required
     />
+    {
+      !additionalInputs && (
+        <button
+          id="submit-knapp"
+          class="block uppercase w-2/12 p-4 pl-2 text-xs ml-2 font-black items-center placeholder:text-xs rounded-lg text-center text-app-light-gray bg-app-dark-blue opacity-75"
+        >
+          Search
+        </button>
+      )
+    }
   </div>
   {
     additionalInputs && (
