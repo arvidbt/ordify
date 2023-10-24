@@ -10,21 +10,7 @@ const { service, details, additionalInputs, mainInputFieldPlaceholder } =
   Astro.props;
 ---
 
-<script>
-  var submitForm = document.getElementById("submit-form");
-  if (submitForm) {
-    submitForm.addEventListener(
-      "keyup",
-      function (e) {
-        e.preventDefault();
-        if (e.keyCode === 13) {
-          alert("Hej!");
-        }
-      },
-      false
-    );
-  }
-</script>
+<script></script>
 
 <h1 class="font-black text-base uppercase text-app-light-gray">
   {service}
@@ -37,6 +23,7 @@ const { service, details, additionalInputs, mainInputFieldPlaceholder } =
     additionalInputs && (
       <div class="flex justify-evenly">
         <input
+          autocorrect="off"
           type="text"
           name="starts-with"
           id="starts-with"
@@ -44,6 +31,7 @@ const { service, details, additionalInputs, mainInputFieldPlaceholder } =
           class="block uppercase w-full my-2 mr-1 p-2 pl-2 text-xl font-black placeholder:text-xs items-center rounded-lg text-center text-app-light-gray bg-slate-800 focus:bg-app-dark-blue focus:outline-none"
         />
         <input
+          autocorrect="off"
           type="text"
           name="ends-with"
           id="ends-with"
@@ -54,12 +42,14 @@ const { service, details, additionalInputs, mainInputFieldPlaceholder } =
     )
   }
   <input
+    autocorrect="off"
     type="text"
     name="letters"
     id="default-search"
     placeholder={mainInputFieldPlaceholder}
-    class="block uppercase w-full p-4 pl-2 text-xl font-black items-center placeholder:text-xs rounded-lg text-center text-app-light-gray bg-slate-800 focus:bg-app-dark-blue focus:outline-none focus:p-8"
+    class="block uppercase w-full p-4 pl-2 text-xl font-black items-center placeholder:text-xs rounded-lg text-center text-app-light-gray bg-slate-800 focus:bg-app-dark-blue focus:outline-none focus:p-6"
     required
   />
-  <input id="submit-form" name="submit-form" type="submit" hidden />
+
+  <!-- <input id="submit-form" name="submit-form" type="submit" hidden /> -->
 </form>
