@@ -11,13 +11,13 @@ const { service, details, additionalInputs, mainInputFieldPlaceholder } =
 ---
 
 <script>
-  const form = document.getElementById("submit-form");
-  document.addEventListener("keydown", keyDownTextField, false);
-  function keyDownTextField(e: any) {
-    var keyCode = e.keyCode;
-    if (keyCode == 13) {
-      alert("You hit the enter key.");
-    }
+  const form = document.getElementById("submit-form") as HTMLInputElement;
+  if (form) {
+    form.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        form.click();
+      }
+    });
   }
 </script>
 
