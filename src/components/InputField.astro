@@ -12,19 +12,18 @@ const { service, details, additionalInputs, mainInputFieldPlaceholder } =
 
 <script>
   var submitForm = document.getElementById("submit-form");
-  if (!submitForm) {
-    return;
+  if (submitForm) {
+    submitForm.addEventListener(
+      "keyup",
+      function (e) {
+        e.preventDefault();
+        if (e.keyCode === 13) {
+          alert("Hej!");
+        }
+      },
+      false
+    );
   }
-  submitForm.addEventListener(
-    "keyup",
-    function (e) {
-      e.preventDefault();
-      if (e.keyCode === 13) {
-        alert("Hej!");
-      }
-    },
-    false
-  );
 </script>
 
 <h1 class="font-black text-base uppercase text-app-light-gray">
