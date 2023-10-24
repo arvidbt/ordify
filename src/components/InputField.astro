@@ -30,6 +30,17 @@ const { service, details, additionalInputs, mainInputFieldPlaceholder } =
   {details && details.map((d) => <li>{d}</li>)}
 </ul>
 <form method="POST">
+  <div class="flex">
+    <input
+      autocorrect="off"
+      type="text"
+      name="letters"
+      id="default-search"
+      placeholder={mainInputFieldPlaceholder}
+      class="block uppercase w-full p-4 pl-2 text-xl font-black items-center placeholder:text-xs rounded-lg text-center text-app-light-gray bg-slate-800 focus:bg-app-dark-blue focus:outline-none"
+      required
+    />
+  </div>
   {
     additionalInputs && (
       <div class="flex justify-evenly">
@@ -39,7 +50,7 @@ const { service, details, additionalInputs, mainInputFieldPlaceholder } =
           name="starts-with"
           id="starts-with"
           placeholder="Starting with"
-          class="block uppercase w-full my-2 mr-1 p-2 pl-2 text-xl font-black placeholder:text-xs items-center rounded-lg text-center text-app-light-gray bg-slate-800 focus:bg-app-dark-blue focus:outline-none"
+          class="block uppercase w-5/12 my-2 mr-1 p-2 pl-2 text-xl font-black placeholder:text-xs items-center rounded-lg text-center text-app-light-gray bg-slate-800 focus:bg-app-dark-blue focus:outline-none"
         />
         <input
           autocorrect="off"
@@ -47,32 +58,15 @@ const { service, details, additionalInputs, mainInputFieldPlaceholder } =
           name="ends-with"
           id="ends-with"
           placeholder="Ending with"
-          class="block uppercase w-full my-2 ml-1 p-2 pl-2 text-xl font-black placeholder:text-xs items-center rounded-lg text-center text-app-light-gray bg-slate-800 focus:bg-app-dark-blue focus:outline-none"
+          class="block uppercase w-5/12 my-2 ml-1 p-2 pl-2 text-xl font-black placeholder:text-xs items-center rounded-lg text-center text-app-light-gray bg-slate-800 focus:bg-app-dark-blue focus:outline-none"
         />
-      </div>
-    )
-  }
-  <div class="flex">
-    <input
-      autocorrect="off"
-      type="text"
-      name="letters"
-      id="default-search"
-      placeholder={mainInputFieldPlaceholder}
-      class="block uppercase w-full p-4 pl-2 text-xl font-black items-center placeholder:text-xs rounded-l-lg text-center text-app-light-gray bg-slate-800 focus:bg-app-dark-blue focus:outline-none"
-      required
-    />
-    {
-      additionalInputs && (
         <button
           id="submit-knapp"
-          class="p-2 bg-app-dark-blue rounded-r-lg text-xs font-black"
+          class="block uppercase w-2/12 my-2 ml-2 p-2 pl-2 text-xs font-black placeholder:text-xs items-center rounded-lg text-center text-app-light-gray bg-app-dark-blue opacity-75"
         >
           Search
         </button>
-      )
-    }
-  </div>
-
-  <!-- <input id="submit-form" name="submit-form" type="submit" hidden /> -->
+      </div>
+    )
+  }
 </form>
