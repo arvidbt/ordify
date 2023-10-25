@@ -5,6 +5,8 @@ interface Props {
   additionalInputs?: boolean;
   mainInputFieldPlaceholder: string;
   additionalInputNames?: string[];
+  excludedValue?: string;
+  mainvalue?: string;
 }
 
 const {
@@ -13,6 +15,8 @@ const {
   additionalInputs,
   mainInputFieldPlaceholder,
   additionalInputNames,
+  excludedValue,
+  mainvalue,
 } = Astro.props;
 ---
 
@@ -22,7 +26,7 @@ const {
 <ul class="text-xs opacity-50 font-semibold pb-2">
   {details && details.map((d) => <li>{d}</li>)}
 </ul>
-<form method="POST">
+<form method="POST" autocomplete="off">
   <div class="flex">
     <input
       autocorrect="off"
@@ -30,6 +34,7 @@ const {
       name="letters"
       id="default-search"
       placeholder={mainInputFieldPlaceholder}
+      value={mainvalue}
       class="block uppercase w-full p-4 pl-2 text-xl font-black items-center placeholder:text-xs rounded-lg text-center text-app-light-gray bg-slate-800 focus:bg-app-dark-blue focus:outline-none"
       required
     />
@@ -60,6 +65,7 @@ const {
           type="text"
           name="extra-field-2"
           id="extra-field-2"
+          value={excludedValue}
           placeholder={additionalInputNames[1]}
           class="block uppercase w-1/2 my-2 ml-1 p-2 pl-2 text-xl font-black placeholder:text-xs items-center rounded-lg text-center text-app-light-gray bg-slate-800 focus:bg-app-dark-blue focus:outline-none"
         />

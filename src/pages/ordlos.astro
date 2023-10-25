@@ -5,13 +5,14 @@ import Layout from "@/layout/Layout.astro";
 import { wordlib } from "@/lib/word-service";
 
 const words: string[] = [];
+let excludedLetters = "";
 
 if (Astro.request.method === "POST") {
   try {
     const data = await Astro.request.formData();
     const guessedWord = data.get("letters") as string;
     const mustIncludeLetters = data.get("extra-field-1") as string;
-    const excludedLetters = data.get("extra-field-2") as string;
+    excludedLetters = data.get("extra-field-2") as string;
 
     const possibleWords = wordlib.getPossibleWords(guessedWord.toLowerCase());
 
@@ -52,7 +53,8 @@ if (Astro.request.method === "POST") {
     details={["Enter unknown characters as '?', for example: P?L?T "]}
     mainInputFieldPlaceholder="your letters"
     additionalInputs={true}
-    additionalInputNames={["included letters", "excluded letters"]}
+    additionalInputNames={["Included", "Excluded"]}
+    excludedValue={excludedLetters}
   />
 
   <WordContainer result={words} />
