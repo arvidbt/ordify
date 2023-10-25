@@ -52,6 +52,7 @@ if (Astro.request.method === "POST") {
     details={["Enter unknown characters as '?', for example: P?L?T "]}
     mainInputFieldPlaceholder="your letters"
     additionalInputs={true}
+    additionalInputNames={["included letters", "excluded letters"]}
   />
 
   <WordContainer result={words} />

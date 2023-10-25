@@ -4,10 +4,16 @@ interface Props {
   details?: string[];
   additionalInputs?: boolean;
   mainInputFieldPlaceholder: string;
+  additionalInputNames?: string[];
 }
 
-const { service, details, additionalInputs, mainInputFieldPlaceholder } =
-  Astro.props;
+const {
+  service,
+  details,
+  additionalInputs,
+  mainInputFieldPlaceholder,
+  additionalInputNames,
+} = Astro.props;
 ---
 
 <h1 class="font-black text-base uppercase text-app-light-gray">
@@ -39,14 +45,14 @@ const { service, details, additionalInputs, mainInputFieldPlaceholder } =
     }
   </div>
   {
-    additionalInputs && (
+    additionalInputs && additionalInputNames && (
       <div class="flex justify-evenly">
         <input
           autocorrect="off"
           type="text"
           name="extra-field-1"
           id="extra-field-1"
-          placeholder="Starting with"
+          placeholder={additionalInputNames[0]}
           class="block uppercase w-1/2 my-2 mr-1 p-2 pl-2 text-xl font-black placeholder:text-xs items-center rounded-lg text-center text-app-light-gray bg-slate-800 focus:bg-app-dark-blue focus:outline-none"
         />
         <input
@@ -54,7 +60,7 @@ const { service, details, additionalInputs, mainInputFieldPlaceholder } =
           type="text"
           name="extra-field-2"
           id="extra-field-2"
-          placeholder="Ending with"
+          placeholder={additionalInputNames[1]}
           class="block uppercase w-1/2 my-2 ml-1 p-2 pl-2 text-xl font-black placeholder:text-xs items-center rounded-lg text-center text-app-light-gray bg-slate-800 focus:bg-app-dark-blue focus:outline-none"
         />
         <button
