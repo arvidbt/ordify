@@ -1,16 +1,13 @@
 ---
-import NavItem from "./NavItem.astro";
-const { pathname } = Astro.url;
+
 ---
 
-<div
-  class="bottom-0 z-50 w-full py-2 flex justify-center pt-5 bg-app-dark-gray"
->
-  <div
-    class="px-4 w-full max-w-screen-md m-auto flex items-center justify-start"
-  >
-    <a href="https://arvidbt-dev.vercel.app/" target="_blank">
-      <p class="text-xs font-black">arvidbt.dev</p>
-    </a>
+<div class="w-full py-4 px-4">
+  <div class="items-center py-4 max-w-screen-md mx-auto flex justify-between">
+    <div class="flex gap-x-4">
+      <p class="font-black text-xs text-app-light-gray">
+        v.<span class="text-app-light-blue">1.0.0</span>
+      </p>
+    </div>
   </div>
 </div>
