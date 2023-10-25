@@ -153,28 +153,28 @@ if (Astro.request.method === "POST") {
     {
       time > 0 && orignalLetters && endsWith === "" && startsWith === "" && (
       <div>
-          <p>Found <span class="text-app-light-blue">{countWords(possibleWords)}</span> words containing <span class="text-app-light-blue">{orignalLetters}</span> in <span class="text-app-light-blue">{time | 0}</span> ms.</p>
+          <p>Found <span class="text-app-light-blue">{countWords(possibleWords)}</span> words containing <span class="text-app-light-blue uppercase">{orignalLetters}</span> in <span class="text-app-light-blue">{time | 0}</span> ms.</p>
         </div>
       )
     }
     {
       time > 0 && orignalLetters && endsWith !== "" && startsWith === "" && (
         <div>
-          <p>Found <span class="text-app-light-blue">{countWords(possibleWords)}</span> words containing <span class="text-app-light-blue">{orignalLetters}</span> and ending with <span class="text-app-light-blue">{endsWith}</span> in <span class="text-app-light-blue">{time | 0}</span> ms.</p>
+          <p>Found <span class="text-app-light-blue">{countWords(possibleWords)}</span> words containing <span class="text-app-light-blue uppercase">{orignalLetters}</span> and ending with <span class="text-app-light-blue uppercase">{endsWith}</span> in <span class="text-app-light-blue">{time | 0}</span> ms.</p>
         </div>
       )
     }
     {
       time > 0 && orignalLetters && startsWith !== "" && endsWith === "" && (
         <div>
-          <p>Found <span class="text-app-light-blue">{countWords(possibleWords)}</span> words containing <span class="text-app-light-blue">{orignalLetters}</span> and starting with <span class="text-app-light-blue">{startsWith}</span> in <span class="text-app-light-blue">{time | 0}</span> ms.</p>
+          <p>Found <span class="text-app-light-blue">{countWords(possibleWords)}</span> words containing <span class="text-app-light-blue uppercase">{orignalLetters}</span> and starting with <span class="text-app-light-blue uppercase">{startsWith}</span> in <span class="text-app-light-blue">{time | 0}</span> ms.</p>
         </div>
       )
     }
     {
       time > 0 && orignalLetters && startsWith !== "" && endsWith !== "" && (
         <div>
-          <p>Found <span class="text-app-light-blue">{countWords(possibleWords)}</span> words containing <span class="text-app-light-blue">{orignalLetters}</span>, starting with <span class="text-app-light-blue">{startsWith}</span> and ending with <span class="text-app-light-blue">{endsWith}</span> in <span class="text-app-light-blue">{time | 0}</span> ms.</p>
+          <p>Found <span class="text-app-light-blue">{countWords(possibleWords)}</span> words containing <span class="text-app-light-blue uppercase">{orignalLetters}</span>, starting with <span class="text-app-light-blue uppercase">{startsWith}</span> and ending with <span class="text-app-light-blue uppercase">{endsWith}</span> in <span class="text-app-light-blue">{time | 0}</span> ms.</p>
 
         </div>
       )
