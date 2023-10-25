@@ -54,7 +54,7 @@ function calculatePoints(word: string): number {
     }
   }
 
-  if ((word.length - payloadWord.split("?").length - 1 ) > 6) {
+  if ((word.length - payloadWord.split("?").length - 1 - startsWith.length - endsWith.length) > 6) {
     wordWorth += 40;
   }
 
