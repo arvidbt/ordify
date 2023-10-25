@@ -112,8 +112,8 @@ if (Astro.request.method === "POST") {
     const data = await Astro.request.formData();
     let letters = data.get("letters") as string;
     orignalLetters = letters;
-    startsWith = data.get("starts-with") as string;
-    endsWith = data.get("ends-with") as string;
+    startsWith = data.get("extra-field-1") as string;
+    endsWith = data.get("extra-field-2") as string;
 
     if (startsWith) {
       letters += startsWith;
