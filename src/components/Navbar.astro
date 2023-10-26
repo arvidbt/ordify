@@ -4,14 +4,12 @@ const { pathname } = Astro.url;
 ---
 
 <div
-  class="fixed top-0 z-50 w-full py-2 flex justify-center pt-5 bg-app-dark-gray rounded-b-lg"
+  class="fixed top-0 z-50 w-full py-2 flex pt-5 bg-app-dark-gray rounded-b-lg"
 >
-  <div
-    class="px-4 w-full max-w-screen-md m-auto flex items-center justify-evenly"
-  >
-    <nav class="flex gap-x-8">
+  <div class="px-4 w-full max-w-screen-md m-auto flex items-center">
+    <nav class="flex gap-x-10">
       <a href="/"
-        ><p class="font-black text-2xl text-app-light-blue">
+        ><p class="font-black text-3xl text-app-light-blue">
           ORDIFY<span class="text-xs text-yellow-600 opacity-75"></span>
         </p></a
       >
@@ -26,13 +24,6 @@ const { pathname } = Astro.url;
         href="/ordlos"
       >
         <p class="text-xs">OrdLös</p>
-      </NavItem>
-      <NavItem
-        active={pathname.includes("/other-services/") ||
-          pathname === "/other-services"}
-        href="/other-services"
-      >
-        <p class="text-xs">...</p>
       </NavItem>
     </nav>
   </div>

@@ -1,0 +1,19 @@
+---
+import { cn } from "@/lib/utils";
+
+interface Props {
+  small?: boolean;
+}
+
+const { small } = Astro.props;
+---
+
+<button
+  id="submit-button"
+  class={cn(
+    "block uppercase w-4/12 p-4 text-xs ml-2 font-black items-center placeholder:text-xs rounded-lg text-center text-app-light-gray bg-app-dark-blue opacity-75",
+    small && "w-1/3 my-2 ml-2 p-2"
+  )}
+>
+  Search
+</button>

@@ -1,44 +1,28 @@
 ---
-import InputField from "@/components/InputField.astro";
+import MainInputField from "@/components/MainInputField.astro";
+import SearchButton from "@/components/SearchButton.astro";
+import SubInputField from "@/components/SubInputField.astro";
 import WordContainer from "@/components/WordContainer.astro";
 import Layout from "@/layout/Layout.astro";
+import { findMatchingWords } from "@/lib/ordlos";
 import { wordlib } from "@/lib/word-service";
 
 const words: string[] = [];
+const details = ["Use '?' for letters you want to guess."];
 let excludedLetters = "";
 
 if (Astro.request.method === "POST") {
   try {
     const data = await Astro.request.formData();
-    const guessedWord = data.get("letters") as string;
-    const mustIncludeLetters = data.get("extra-field-1") as string;
-    excludedLetters = data.get("extra-field-2") as string;
+    const guessedWord = data.get("guess") as string;
+    const includedLetters = data.get("included") as string;
+    excludedLetters = data.get("letters") as string;
 
     const possibleWords = wordlib.getPossibleWords(guessedWord.toLowerCase());
 
-    possibleWords.forEach((word) => {
-      if (word.includes(":")) {
-        return;
-      }
-
-      if (mustIncludeLetters !== "") {
-        const mustIncludeLettersLowerCase = [
-          ...mustIncludeLetters.toLowerCase(),
-        ];
-        if (!mustIncludeLettersLowerCase.every((c) => word.includes(c))) {
-          return;
-        }
-      }
-
-      if (excludedLetters !== "") {
-        const excludedLettersLowerCase = [...excludedLetters.toLowerCase()];
-        if (excludedLettersLowerCase.some((c) => word.includes(c))) {
-          return;
-        }
-      }
-
-      words.push(word);
-    });
+    words.push(
+      ...findMatchingWords(possibleWords, includedLetters, excludedLetters)
+    );
   } catch (error) {
     if (error instanceof Error) {
       console.error(error.message);
@@ -48,14 +32,23 @@ if (Astro.request.method === "POST") {
 ---
 
 <Layout>
-  <InputField
-    service="ordlös"
-    details={["Enter unknown characters as '?', for example: P?L?T "]}
-    mainInputFieldPlaceholder="your letters"
-    additionalInputs={true}
-    additionalInputNames={["Included", "Excluded"]}
-    excludedValue={excludedLetters}
-  />
-
+  <h1 class="font-black text-base uppercase text-app-light-gray">wordfeusk</h1>
+  <ul class="text-xs opacity-50 font-semibold pb-2">
+    {details && details.map((d) => <li>{d}</li>)}
+  </ul>
+  <form method="POST" autocomplete="off">
+    <div class="flex justify-evenly">
+      <SubInputField placeholder="your guess" componentId="guess" />
+      <SubInputField
+        placeholder="included"
+        componentId="included"
+        marginLeft={true}
+      />
+    </div>
+    <div class="flex justify-evenly">
+      <MainInputField placeholder="excluded characters" />
+      <SearchButton />
+    </div>
+  </form>
   <WordContainer result={words} />
 </Layout>
