@@ -1,0 +1,46 @@
+---
+import ListItem from "@/components/ListItem.astro";
+import Layout from "../layout/Layout.astro";
+---
+
+<Layout title={"Ordify"}>
+  <h1 class="text-sm font-bold">
+    Ordify is a web application that helps you win your favorite wordgames.
+  </h1>
+  <p class="text-xs font-semibold pt-3 opacity-75">
+    Ordify is a website demonstrating the npm package <a
+      href="https://www.npmjs.com/package/@arvidbt/wordlib"
+      target="_blank"
+      ><span class="opacity-100 text-app-light-blue hover:underline"
+        >wordlib</span
+      ></a
+    >, a package for playing around with words.
+  </p>
+  <p class="text-xs font-semibold opacity-75 pt-3">
+    At its core, Ordify consists of two main features,
+  </p>
+  <ul class="pt-3 text-xs font-semibold m-3">
+    <ListItem
+      href="/wordfeusk"
+      title="WordFeusk"
+      info="Beat your opponents by finding the best word that you can play given your letters."
+    />
+    <ListItem
+      href="/ordlos"
+      title="OrdLös"
+      info="Minimize your risk of losing Ordel by finding out which words are still possible to form from your guessed characters."
+    />
+  </ul>
+  <p class="text-xs font-semibold opacity-75 pt-3">
+    The dictionaries are without a doubt not complete, so there might be words
+    that exists that are missing from Ordifys dictionaries. If you feel like a
+    word is missing, you can shoot me a message at:
+  </p>
+  <div class="flex items-center justify-center">
+    <p class="text-sm font-semibold py-4">
+      arvidbergmanthorn <span class="text-app-light-blue">[at]</span> gmail <span
+        class="text-app-light-blue">[dot]</span
+      > com
+    </p>
+  </div>
+</Layout>
