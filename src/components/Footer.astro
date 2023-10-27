@@ -1,18 +1,40 @@
+---
+import { Icons } from "./Icons";
+---
+
 <div class="w-full py-4 px-4">
   <div class="items-center py-4 max-w-screen-md mx-auto flex justify-between">
     <div class="flex gap-x-4">
       <div class="flex text-xs font-black">
-        <p class="p-1">
-          <span class="opacity-50">Created by</span>
+        <div class="flex justify-evenly m-auto space-x-2">
+          <p>
+            <span class="opacity-50">Created by</span>
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://arvidbt-dev.vercel.app/"
+              class="group relative"
+            >
+              Arvid</a
+            >
+          </p>
           <a
             target="_blank"
             rel="noopener noreferrer"
-            href="https://arvidbt-dev.vercel.app/"
+            href="https://github.com/arvidbt"
             class="group relative"
           >
-            Arvid</a
+            <Icons.github /></a
           >
-        </p>
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://linkedin.com/in/arvid-bergman-thörn-1843701b8"
+            class="group relative"
+          >
+            <Icons.linkedin /></a
+          >
+        </div>
       </div>
     </div>
     <p class="font-black text-xs text-app-light-gray">
