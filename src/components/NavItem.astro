@@ -10,8 +10,8 @@ const { href, active } = Astro.props;
 
 <a
   class={cn(
-    "group inline-flex items-center gap-x-2 opacity-80 hover:opacity-100 font-black",
-    !active && "opacity-40"
+    "group inline-flex items-center gap-x-2 hover:opacity-100 font-black",
+    active && "text-app-blue"
   )}
   ,
   href={href}
